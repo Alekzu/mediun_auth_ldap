@@ -1,0 +1,17 @@
+version: '2'
+services:
+  authentication_db:
+    image: nouchka/sqlite3:latest
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./db/development.sqlite3
+
+  authentication_ms:
+    build: .
+    # command: bash -c "bundle exec rails db:create && bundle exec rails db:migrate && bundle exec rails db:setup && bundle exec rails s -p 5001 -b 0.0.0.0 && rm authentication_ms/tmp/pids/server.pid"
+    command: bash -c "bundle exec rails db:create && bundle exec rails db:migrate && bundle exec rails db:setup && rm -f /authentication_ms/tmp/pids/server.pid && bundle exec rails s -p 5003 -b 0.0.0.0"
+    ports:
+      - "5003:5003"
+    depends_on:
+      - authentication_db

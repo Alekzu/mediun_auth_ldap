@@ -1,0 +1,15 @@
+current directory: /home/juan/Downloads/authentication_ms-master/vendor/cache/gems/websocket-driver-0.7.1/ext/websocket-driver
+/home/juan/.rbenv/versions/2.5.1/bin/ruby -I /home/juan/.rbenv/versions/2.5.1/lib/ruby/site_ruby/2.5.0 -r ./siteconf20191116-11326-bdzwy5.rb extconf.rb
+creating Makefile
+
+current directory: /home/juan/Downloads/authentication_ms-master/vendor/cache/gems/websocket-driver-0.7.1/ext/websocket-driver
+make "DESTDIR=" clean
+
+current directory: /home/juan/Downloads/authentication_ms-master/vendor/cache/gems/websocket-driver-0.7.1/ext/websocket-driver
+make "DESTDIR="
+compiling websocket_mask.c
+linking shared-object websocket_mask.so
+
+current directory: /home/juan/Downloads/authentication_ms-master/vendor/cache/gems/websocket-driver-0.7.1/ext/websocket-driver
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 websocket_mask.so ./.gem.20191116-11326-1cj3sq2

@@ -1,0 +1,191 @@
+#Test with: http://editor.swagger.io/
+ 
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Microservicio para Autenticación
+  description: Ruby + SQLite
+  license:
+    name: authentication-ms
+host: localhost:5003
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /auth/:
+    post:
+      summary: Registro de un nuevo usuario
+      operationId: createUser
+      parameters:
+        - name: user
+          in: body
+          required: true
+          description: User Object
+          schema:
+            $ref: '#/definitions/UserInput'
+      responses:
+        '200':
+          description: OK
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/ErrorEmail'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorBad'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorServer'
+            
+  /auth/sign_in:
+    post:
+      summary: Ingreso del usuario
+      operationId: loginUser
+      parameters:
+        - name: user
+          in: body
+          required: true
+          description: User Object
+          schema:
+            $ref: '#/definitions/UserLogin'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorBad'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorUnauthorized'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorServer'
+
+  /users/{id}:
+    get:
+      summary: Retorna un usuario con su id
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          description: Informacion del usuario por id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/UserId'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorServer'
+
+# Definitions
+definitions:
+  UserInput:
+    type: object
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      nickname:
+        type: string
+      password:
+        type: string
+      password_confirmation:
+        type: string
+  
+  UserLogin:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+  
+  UserId:
+    type: object
+    properties:
+      id:
+        type: integer
+      provider:
+        type: string
+      uid:
+        type: string
+      allow_password_change:
+        type: boolean
+      name:
+        type: string
+      nickname:
+        type: string
+      image:
+        type: string
+      email:
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+
+  # Errors
+  ErrorEmail:
+    type: object
+    properties:
+      status:
+        type: string
+      data:
+        type: object
+      errors:
+        type: object
+  
+  ErrorUnauthorized:
+    type: object
+    properties:
+      success:
+        type: string
+      errors:
+        type: object
+        
+  ErrorBad:
+    type: object
+    properties:
+      status:
+        type: integer
+      error:
+        type: string
+      exception:
+        type: string
+      traces:
+        type: object
+  
+  ErrorServer:
+    type: object
+    properties:
+      status:
+        type: integer
+      error: 
+        type: string
+      exception: 
+        type: string
+      traces:
+        type: object
+  
+  ErrorModel:
+    type: object
+    properties:
+      message:
+        type: string
